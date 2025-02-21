@@ -1,6 +1,7 @@
 const express = require('express');
 const axios = require('axios');
 require('dotenv').config();
+const home = require("./routes/home");
 
 const app = express();
 app.use(express.json());
@@ -101,6 +102,7 @@ async function callGeminiAPI(payload, retries = 2, delayMs = 1000) {
     }
   }
 }
+app.use("/home", home);
 
 app.post('/generate-checklist', async (req, res) => {
   try {
@@ -202,7 +204,5 @@ app.post('/generate-checklist', async (req, res) => {
   }
 });
 
-const PORT = 5000;
-app.listen(PORT, '0.0.0.0', () => {
-  console.log(`Server is running on port ${PORT}`);
-});
+const port = process.env.PORT || 5000;
+app.listen(port, () => console.log(`Listening to port ${port}`));
